@@ -1,0 +1,5 @@
+*.pyc
+apps/*.pyc
+apps/users/*.pyc
+apps/models/*.pyc
+configs/*.pyc
