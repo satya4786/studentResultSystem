@@ -41,28 +41,7 @@ class UserSystem():
         else:
             return False, "User not exists"
 
-    # def verify_login(self, username, password):
-    #     email_check, phone_check = True, False
-    #     user_check = User.objects(email=username).first()
-    #     if not user_check:
-    #         user_check = User.objects(phone=username).first()
-    #         phone_check = True
-    #     if user_check:
-    #         enc_pass = self.pwd_context.encrypt(password)
-    #         # if enc_pass==User.objects(password=enc_pass).first():
-    #         print(enc_pass)
-    #         #print(User.objects(__raw__={"password":password}).first())
-    #         """
-    #         encrypt the password and verify in db
-    #         """
-    #         if phone_check:
-    #             user_exs = User.objects(phone=username, password=enc_pass).first()
-    #         else:
-    #             user_exs = User.objects(email=username, password=enc_pass).first()
-    #         if user_exs:
-    #             return True, "User exists in the system"
-    #         return False, "Invalid Password"
-    #     return False, "User not exists"
+
     def verify_loggedin_user(self, username, password):
         query = {"$or": [{"email": username}, {"phone": username}]}
         user_check = User.objects(__raw__=query).first()
