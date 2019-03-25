@@ -13,13 +13,13 @@ def run_with_tornado(port, debug_mode):
         from tornado.wsgi import WSGIContainer
         from tornado.httpserver import HTTPServer
         from tornado.ioloop import IOLoop
-        print 'Tornado on port {port} ...'.format(port=port)
+        print ('Tornado on port {port} ...'.format(port=port))
         app.debug = debug_mode
         http_server = HTTPServer(WSGIContainer(app))
         http_server.listen(port)
         IOLoop.instance().start()
     except ImportError:
-        print 'ERROR: tornado is not installed in this environment. Please install and try again'
+        print ('ERROR: tornado is not installed in this environment. Please install and try again')
         sys_exit(1)
 
 
@@ -31,7 +31,7 @@ def run_with_twisted(port, debug_mode):
         from twisted.internet import reactor
         from twisted.web.server import Site
         from twisted.web.wsgi import WSGIResource
-        print 'Twisted on port {port} ...'.format(port=port)
+        print('Twisted on port {port} ...'.format(port=port))
         app.debug = debug_mode
         resource = WSGIResource(reactor, reactor.getThreadPool(), app)
         site = Site(resource)
@@ -39,7 +39,7 @@ def run_with_twisted(port, debug_mode):
         reactor.listenTCP(port, site, interface="0.0.0.0")
         reactor.run()
     except ImportError:
-        print 'ERROR: twistd is not installed in this environment. Please install and try again.'
+        print ('ERROR: twistd is not installed in this environment. Please install and try again.')
         sys_exit(1)
 
 
@@ -47,7 +47,7 @@ def run_with_builtin(port, debug_mode):
     """
     Run with default builtin flask/klein/bottle apps
     """
-    print 'Built-in development server on port {port} ...'.format(port=port)
+    print ('Built-in development server on port {port} ...'.format(port=port))
     app.run(host="0.0.0.0", port=port, debug=debug_mode)
 
 
@@ -81,9 +81,9 @@ def main():
     if options.app_container == 'tornado':
         run_with_tornado(port, debug_mode)
     elif options.app_container == 'twistd':
-        run_with_twisted(port, debug_mode)
+        run_with_twisted(port, True)
     else:
-        run_with_builtin(port, debug_mode)
+        run_with_builtin(port, True)
 
 
 if __name__ == '__main__':

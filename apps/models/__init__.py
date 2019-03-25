@@ -38,5 +38,5 @@ class User(DynamicDocument):
         return super(User, self).save(*args, **kwargs)
 
     meta = {
-        'indexes': ['email', 'mobile', 'full_name'],
+        'indexes': ['email', 'phone', 'full_name'],
     }

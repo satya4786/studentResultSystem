@@ -41,6 +41,37 @@ class UserSystem():
         else:
             return False, "User not exists"
 
+    # def verify_login(self, username, password):
+    #     email_check, phone_check = True, False
+    #     user_check = User.objects(email=username).first()
+    #     if not user_check:
+    #         user_check = User.objects(phone=username).first()
+    #         phone_check = True
+    #     if user_check:
+    #         enc_pass = self.pwd_context.encrypt(password)
+    #         # if enc_pass==User.objects(password=enc_pass).first():
+    #         print(enc_pass)
+    #         #print(User.objects(__raw__={"password":password}).first())
+    #         """
+    #         encrypt the password and verify in db
+    #         """
+    #         if phone_check:
+    #             user_exs = User.objects(phone=username, password=enc_pass).first()
+    #         else:
+    #             user_exs = User.objects(email=username, password=enc_pass).first()
+    #         if user_exs:
+    #             return True, "User exists in the system"
+    #         return False, "Invalid Password"
+    #     return False, "User not exists"
+    def verify_loggedin_user(self, username, password):
+        query = {"$or": [{"email": username}, {"phone": username}]}
+        user_check = User.objects(__raw__=query).first()
+        if user_check:
+            if self.pwd_context.verify(password, user_check.password):
+                return True, "User Exists in the System"
+            return False, "Invalid Password"
+        return False, "User not exists"
+
     def validate_signup_payload(self, data):
         req_keys = eval(config_dict['user']['req_keys'])
         difference = list(set(req_keys).difference(data))
@@ -86,4 +117,4 @@ class UserSystem():
             return {"success": True, "message": "Created User Successfully"}
 
         except Exception as e:
-            print traceback.format_exc()
+            print (traceback.format_exc())
